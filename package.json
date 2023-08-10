@@ -1,0 +1,14 @@
+{
+  "name": "pdi",
+  "version": "1.0.0",
+  "description": "Processamento digital de imagens",
+  "main": "index.js",
+  "scripts": {
+    "test": "run"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "fs": "^0.0.1-security"
+  }
+}
