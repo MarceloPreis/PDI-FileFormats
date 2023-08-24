@@ -5,15 +5,16 @@ const fs = require('fs');
 module.exports = class ImageFactory {
 
     create(type, options) {
-        return this[`P2`](options)
+        return this[type](options)
     }
 
     read(path) {
         const bin = fs.readFileSync(path).toString().split('\n')
-        const type = bin.shift()
+        const type = bin.shift().trim()
         const [height, width, intensity] = bin.shift().split(' ')
         
         return this.create(type , {
+            fileName: path,
             height: height,
             width: width,
             intensity: intensity,
@@ -26,6 +27,7 @@ module.exports = class ImageFactory {
     }
 
     P2(options) {
+        console.log(options.fileName)
         return new Pgm(options)
     }
 
