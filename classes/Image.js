@@ -30,6 +30,6 @@ module.exports = class Image {
     }
 
     stringfyBin() {
-        return `${this.type}\n${this.height} ${this.width} ${this.intensity || ''}\n${this.bin.flat().join(' ')}`
+        return `${this.type}\n${this.width} ${this.height} ${this.intensity || ''}\n${this.bin.flat().join(' ')}`
     }
 }

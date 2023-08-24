@@ -5,16 +5,16 @@ const fs = require('fs');
 module.exports = class ImageFactory {
 
     create(type, options) {
-        const opt = { type: type, ...options }
-        return this[type](this.getSerializedOptions(opt))
+        return this[type](options)
     }
 
     read(path) {
         const bin = fs.readFileSync(path).toString().split('\n')
-        const type = bin.shift()
+        const type = bin.shift().trim()
         const [height, width, intensity] = bin.shift().split(' ')
         
         return this.create(type , {
+            fileName: path,
             height: height,
             width: width,
             intensity: intensity,
@@ -23,23 +23,12 @@ module.exports = class ImageFactory {
     }
 
     P1(options) {
-        return new Pbm(...options)
+        return new Pbm(options)
     }
 
     P2(options) {
-        return new Pgm(...options)
-    }
-
-    getSerializedOptions(options) {
-        return [
-            options.type || null,
-            options.fileName || null,
-            options.height || null,
-            options.width || null,
-            options.extension || null,
-            options.intensity || null,
-            options.bin || null,
-        ]
+        console.log(options.fileName)
+        return new Pgm(options)
     }
 
     getPixels(bin, height, width) {
@@ -54,6 +43,7 @@ module.exports = class ImageFactory {
                 counter++
             }
         }
+
         return aux
     }
 }
