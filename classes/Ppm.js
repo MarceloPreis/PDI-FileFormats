@@ -1,7 +1,6 @@
 module.exports = class Image {
-    constructor() {
-        this.type = 'ppm'
-        super();
+    constructor(data) {
+        super('P3', data.fileName, data.height, data.width, 'ppm', data.intensity, data.bin)
     }
 
     randomPixel() {

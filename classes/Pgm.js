@@ -1,8 +1,8 @@
 const Image = require('./Image')
 
 module.exports = class Pgm extends Image {
-    constructor(fileName, height, width, extension, intensity, bin) {
-        super('P2', fileName, height, width, 'pgm', intensity, bin)
+    constructor(data) {
+        super('P2', data.fileName, data.height, data.width, 'pgm', data.intensity, data.bin)
     }
 
     randomPixel() {
@@ -12,14 +12,13 @@ module.exports = class Pgm extends Image {
     resizeTo(newHeight, newWidth) {
         const newMatrix = [];
         for (let i = 0; i < newHeight; i++) {
-            const newRow = [];
+            
+            newMatrix[i] = [];
             for (let j = 0; j < newWidth; j++) {
                 const originalRow = Math.floor(i * this.height / newHeight);
                 const originalCol = Math.floor(j * this.width / newWidth);
-                newRow.push(this.bin[originalRow][originalCol]);
+                newMatrix[i][j] = this.bin[originalRow][originalCol]
             }
-
-            newMatrix.push(newRow);
         }
 
         this.bin = newMatrix

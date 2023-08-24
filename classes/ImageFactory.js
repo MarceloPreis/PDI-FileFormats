@@ -5,8 +5,7 @@ const fs = require('fs');
 module.exports = class ImageFactory {
 
     create(type, options) {
-        const opt = { type: type, ...options }
-        return this[type](this.getSerializedOptions(opt))
+        return this[`P2`](options)
     }
 
     read(path) {
@@ -23,23 +22,11 @@ module.exports = class ImageFactory {
     }
 
     P1(options) {
-        return new Pbm(...options)
+        return new Pbm(options)
     }
 
     P2(options) {
-        return new Pgm(...options)
-    }
-
-    getSerializedOptions(options) {
-        return [
-            options.type || null,
-            options.fileName || null,
-            options.height || null,
-            options.width || null,
-            options.extension || null,
-            options.intensity || null,
-            options.bin || null,
-        ]
+        return new Pgm(options)
     }
 
     getPixels(bin, height, width) {
@@ -54,6 +41,7 @@ module.exports = class ImageFactory {
                 counter++
             }
         }
+
         return aux
     }
 }

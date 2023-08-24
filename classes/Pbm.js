@@ -1,8 +1,8 @@
 const Image = require('./Image')
 
 module.exports = class Pbm extends Image {
-    constructor(fileName, height, width, extension, intensity, bin) {
-        super('P1', fileName, height, width, 'pbm', false, bin);
+    constructor(data) {
+        super('P1', data.fileName, data.height, data.width, 'pgm', null, data.bin)
     }
 
     randomPixel() {
