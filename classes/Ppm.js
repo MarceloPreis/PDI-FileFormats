@@ -1,4 +1,6 @@
-module.exports = class Image {
+const Image = require('./Image')
+
+module.exports = class Ppm extends Image {
     constructor(data) {
         super('P3', data.fileName, data.height, data.width, 'ppm', data.intensity, data.bin)
     }
