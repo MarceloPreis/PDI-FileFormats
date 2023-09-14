@@ -14,4 +14,22 @@ module.exports = class Pgm extends Image {
         this.bin = this.bin.map(line => line.map(pixel => Math.floor(pixel * proportion)))
         this.intensity = newIntensity
     }
+
+    /**
+     * 
+     * @param {number} newIntensity 
+     */
+    upWhiteIntensity(newIntensity) {
+        const proportion = 1 + newIntensity / 100
+        console.log(this.bin[0])
+        this.forEachPixel((pixel) => {
+            let newPixel =  Math.floor(pixel * proportion)
+
+            if (newPixel > this.intensity)
+                newPixel = this.intensity
+
+            return newPixel
+        })
+        console.log(this.bin[0])
+    }
 }

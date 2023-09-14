@@ -12,7 +12,9 @@ module.exports = class ImageFactory {
         const bin = fs.readFileSync(path).toString().split('\n')
         const type = bin.shift().trim()
         const [height, width, intensity] = bin.shift().split(' ')
-        
+
+
+
         return this.create(type , {
             fileName: path,
             height: height,
@@ -27,14 +29,19 @@ module.exports = class ImageFactory {
     }
 
     P2(options) {
-        console.log(options.fileName)
         return new Pgm(options)
     }
 
     getPixels(bin, height, width) {
         let aux = []
         let counter = 0
-        
+
+        if (bin.length == 1)
+            bin = bin[0]
+
+        if (typeof bin === 'string')
+            bin = bin.split(' ')
+
         for (let i = 0; i < height; i++) {
             aux[i] = []
             

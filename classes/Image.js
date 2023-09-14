@@ -49,4 +49,12 @@ module.exports = class Image {
     stringfyBin() {
         return `${this.type}\n${this.width} ${this.height} ${this.intensity || ''}\n${this.bin.flat().join(' ')}`
     }
+
+    /**
+     * 
+     * @param {function} callback 
+     */
+    forEachPixel(callback) {
+        this.bin = this.bin.map(line => line.map(pixel => callback(pixel)))
+    }
 }
