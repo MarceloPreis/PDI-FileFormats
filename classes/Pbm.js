@@ -8,4 +8,15 @@ module.exports = class Pbm extends Image {
     randomPixel() {
         return Math.floor(Math.random() * 2)
     }
+
+    /**
+     * 
+     * @param {Image} image 
+     * @param {Number} limiar 
+     */
+    createFromPgm(image, limiar) {
+        this.bin = image.forEachPixel((pixel) => {
+            return pixel <= limiar ? 0 : 1 
+        })
+    }
 }

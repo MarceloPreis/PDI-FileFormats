@@ -21,8 +21,7 @@ module.exports = class Pgm extends Image {
      */
     upWhiteIntensity(newIntensity) {
         const proportion = 1 + newIntensity / 100
-        console.log(this.bin[0])
-        this.forEachPixel((pixel) => {
+        this.bin = this.forEachPixel((pixel) => {
             let newPixel =  Math.floor(pixel * proportion)
 
             if (newPixel > this.intensity)
@@ -30,6 +29,13 @@ module.exports = class Pgm extends Image {
 
             return newPixel
         })
-        console.log(this.bin[0])
     }
+
+    negative() {
+        const intensity = this.intensity ?? 255
+        this.bin = this.forEachPixel((pixel) => {
+            return intensity - pixel
+        })
+    }
+
 }

@@ -25,7 +25,7 @@ module.exports = class Image {
 
     save() {
         let bin = this.stringfyBin()   
-
+        console.log(bin)
         fs.writeFile(`${this.fileName}.${this.extension}`, bin, (err, data) => console.log(err || `Arquivo "${this.fileName}.${this.extension}" criado com sucesso!`)); 
     }
 
@@ -55,6 +55,6 @@ module.exports = class Image {
      * @param {function} callback 
      */
     forEachPixel(callback) {
-        this.bin = this.bin.map(line => line.map(pixel => callback(pixel)))
+        return this.bin.map(line => line.map(pixel => callback(pixel)))
     }
 }

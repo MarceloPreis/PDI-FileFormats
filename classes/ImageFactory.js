@@ -11,9 +11,8 @@ module.exports = class ImageFactory {
     read(path) {
         const bin = fs.readFileSync(path).toString().split('\n')
         const type = bin.shift().trim()
+
         const [height, width, intensity] = bin.shift().split(' ')
-
-
 
         return this.create(type , {
             fileName: path,
