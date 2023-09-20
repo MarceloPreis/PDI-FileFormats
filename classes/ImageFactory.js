@@ -1,5 +1,6 @@
 const Pbm = require('./Pbm')
 const Pgm = require('./Pgm')
+const Ppm = require('./Ppm')
 const fs = require('fs');
 
 module.exports = class ImageFactory {
@@ -9,17 +10,23 @@ module.exports = class ImageFactory {
     }
 
     read(path) {
-        const bin = fs.readFileSync(path).toString().split('\n')
-        const type = bin.shift().trim()
+        let bin = fs.readFileSync(path).toString().replace(/\r/g, '').split('\n')
 
-        const [height, width, intensity] = bin.shift().split(' ')
+        
+        const type = bin.shift()
+        const [width, height] = bin.shift().split(' ')
+        const intensity = bin.shift()
+        
+        // console.log(bin)
+        // process.exit()
+        bin = bin.map(line => line.trim().split(' ')).flat()
 
         return this.create(type , {
             fileName: path,
             height: height,
             width: width,
             intensity: intensity,
-            bin: this.getPixels(bin, height, width)
+            bin: this.getPixels(bin, height, width, type)
         })
     }
 
@@ -31,7 +38,11 @@ module.exports = class ImageFactory {
         return new Pgm(options)
     }
 
-    getPixels(bin, height, width) {
+    P3(options) {
+        return new Ppm(options)
+    }
+
+    getPixels(bin, height, width, type) {
         let aux = []
         let counter = 0
 
@@ -41,12 +52,21 @@ module.exports = class ImageFactory {
         if (typeof bin === 'string')
             bin = bin.split(' ')
 
+        // console.log(height, width, type)
+        // process.exit()
+
         for (let i = 0; i < height; i++) {
             aux[i] = []
             
             for (let j = 0; j < width; j++){ 
-                aux[i][j] = Number(bin[counter])
-                counter++
+                
+                if (type === 'P3') {
+                    aux[i][j] = [Number(bin[counter]), Number(bin[counter + 1]), Number(bin[counter + 2])]
+                    counter = counter + 3
+                } else {
+                    aux[i][j] = Number(bin[counter])
+                    counter++
+                }
             }
         }
 

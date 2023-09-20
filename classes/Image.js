@@ -1,4 +1,5 @@
 const fs = require('fs');
+const collect = require('collect');
 
 module.exports = class Image {
     constructor(type, fileName, height, width, extension, intensity, bin) {
@@ -12,20 +13,11 @@ module.exports = class Image {
     }
 
     createRandom() {
-        let matrix = []
-        for (var i = 0; i < this.height; ++i) {
-            matrix[i] = []
-            for (var j = 0; j < this.width; ++j) {
-                matrix[i][j] = this.randomPixel()
-            }
-        }
-
-        this.bin = matrix
+        this.bin = this.forEachPixel((pixel) => this.randomPixel())
     }
 
     save() {
         let bin = this.stringfyBin()   
-        console.log(bin)
         fs.writeFile(`${this.fileName}.${this.extension}`, bin, (err, data) => console.log(err || `Arquivo "${this.fileName}.${this.extension}" criado com sucesso!`)); 
     }
 
@@ -47,7 +39,14 @@ module.exports = class Image {
     }
 
     stringfyBin() {
-        return `${this.type}\n${this.width} ${this.height} ${this.intensity || ''}\n${this.bin.flat().join(' ')}`
+        let pixels = this.bin.map(line => {
+            if (this.type == 'P3')
+                line = line.map(pixel => pixel.join(' '))
+
+            return line.join(' ') + '\n'
+        })
+
+        return `${this.type}\n${this.width} ${this.height}\n${this.intensity || ''}\n${pixels.flat().join(' ')}`
     }
 
     /**
